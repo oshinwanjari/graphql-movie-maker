@@ -3,7 +3,7 @@ import React from "react";
 export default function AddMovies() {
   return (
     <div className="addMovie">
-      <form onSubmit={() => alert("Movie Added")}>
+      <form onSubmit={() => alert("Movie Added!")}>
         <label>Name</label>
         <input type="text" required />
         <label>Genre</label>
