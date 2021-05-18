@@ -1,6 +1,10 @@
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
+const { graphqlHTTP } = require("express-graphql");
+const movieSchema = require("./schema/schema");
+const resolvers = require("./resolver/resolver");
+const cors = require("cors");
 
 mongoose
   .connect(
@@ -17,6 +21,18 @@ mongoose
   .catch((err) => {
     console.log("Error", err);
   });
+
+app.use(cors());
+
+//setting GraphQL
+app.use(
+  "/graphql",
+  graphqlHTTP({
+    schema: movieSchema,
+    graphiql: true,
+    rootValue: resolvers
+  })
+);
 
 app.get("/", (req, res) => {
   res.send("Hello from backend app.js");

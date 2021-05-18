@@ -1,78 +1,27 @@
 import React, { Component } from "react";
 import Movie from "../components/Movie";
+import { graphql } from "@apollo/client/react/hoc";
+import { allMovies } from "../queries/queries";
 
-export default class Movies extends Component {
-  state = {
-    movies: [
-      {
-        id: 1,
-        name: "John Wick",
-        genre: "Action",
-        year: 2019,
-        image: "https://bit.ly/3biMP8J"
-      },
-      {
-        id: 2,
-        name: "John Wick",
-        genre: "Action",
-        year: 2019,
-        image: "https://bit.ly/3biMP8J"
-      },
-      {
-        id: 3,
-        name: "John Wick",
-        genre: "Action",
-        year: 2019,
-        image: "https://bit.ly/3biMP8J"
-      },
-      {
-        id: 4,
-        name: "John Wick",
-        genre: "Action",
-        year: 2019,
-        image: "https://bit.ly/3biMP8J"
-      },
-      {
-        id: 5,
-        name: "John Wick",
-        genre: "Action",
-        year: 2019,
-        image: "https://bit.ly/3biMP8J"
-      },
-      {
-        id: 6,
-        name: "John Wick",
-        genre: "Action",
-        year: 2019,
-        image: "https://bit.ly/3biMP8J"
-      },
-      {
-        id: 7,
-        name: "John Wick",
-        genre: "Action",
-        year: 2019,
-        image: "https://bit.ly/3biMP8J"
-      },
-      {
-        id: 8,
-        name: "John Wick",
-        genre: "Action",
-        year: 2019,
-        image: "https://bit.ly/3biMP8J"
-      }
-    ]
-  };
+class Movies extends Component {
   render() {
+    let data = this.props.data;
+
+    if (data.loading) {
+      return <h2>Loading movies...</h2>;
+    }
+    if (data.movies.length === 0) {
+      return <h2>Please add movies</h2>;
+    }
     return (
       <div className="movies">
-        {this.state.movies.map((movie, key) => {
+        {data.movies.map((movie, key) => {
           return (
             <Movie
-              key={movie.id}
+              key={movie.name}
               name={movie.name}
               genre={movie.genre}
               year={movie.year}
-              image={movie.image}
             />
           );
         })}
@@ -80,3 +29,5 @@ export default class Movies extends Component {
     );
   }
 }
+
+export default graphql(allMovies)(Movies);
